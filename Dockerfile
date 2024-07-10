@@ -20,7 +20,7 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 RUN apt update \
 && apt upgrade \
-&& apt install -y python3 python3-dev python3-pip
+&& apt install -y python3
 
 # 拷贝当前项目到/app目录下（.dockerignore中文件除外）
 COPY . /app
