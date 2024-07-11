@@ -22,16 +22,17 @@ COPY . /app
 # 设定当前的工作目录
 WORKDIR /app
 
-RUN apk add py3-numpy \
-&& apk add --no-cache build-base cmake linux-headers \
-&& apk add--no-cache jpeg-dev zlib-dev \
-&& apk add --no-cache libjpeg-turbo-dev libpng-dev \
-&& apk add --no-cache tiff-dev \
-&& apk add --no-cache libwebp-dev \
-&& apk add --no-cache openblas-dev \
-&& apk add --no-cache libffi-dev \
-&& apk add --no-cache ffmpeg-dev \
-&& apk add --no-cache python3-dev \
+RUN apk add py3-numpy
+
+RUN apk add --no-cache build-base cmake linux-headers
+RUN apk add --no-cache jpeg-dev zlib-dev
+RUN apk add --no-cache libjpeg-turbo-dev libpng-dev
+RUN apk add --no-cache tiff-dev
+RUN apk add --no-cache libwebp-dev
+RUN apk add --no-cache openblas-dev
+RUN apk add --no-cache libffi-dev
+RUN apk add --no-cache ffmpeg-dev
+RUN apk add --no-cache python3-dev
 
 # 安装依赖到指定的/install文件夹
 # 选用国内镜像源以提高下载速度
