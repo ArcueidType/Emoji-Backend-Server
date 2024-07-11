@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
+from .utils.body_segment import body_segment
 
 
 class AddOp(Resource):
@@ -14,6 +15,15 @@ class AddOp(Resource):
         num2 = data['num2']
         result = num1 + num2
         return {'code': 200, 'msg': 'ok', 'result': result}
+
+
+class BodySegment(Resource):
+    def post(self):
+        data = request.get_json()
+        img_bytes = data['img']
+        result = body_segment(img_bytes)
+        return {'code': 200, 'msg': 'ok', 'result': result}
+
 
 
 class GrayWordMeme(Resource):
