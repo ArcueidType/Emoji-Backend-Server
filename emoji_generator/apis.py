@@ -7,5 +7,6 @@ def enable_all_apis(app):
 
     api.add_resource(AddOp, '/add')
     api.add_resource(GrayWordMeme, '/graywordmeme')
+    api.add_resource(Always, '/always')
 
     return api
