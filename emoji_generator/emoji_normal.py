@@ -1,5 +1,9 @@
 from pil_utils import BuildImage
 from PIL import Image
+import os
+
+
+RESOURCES_PATH = os.path.join(os.getcwd(), 'emoji_generator', 'resources')
 
 
 def append_text(image: Image, text: str) -> Image:
@@ -48,5 +52,15 @@ def always(image: Image) -> Image:
         fontname='./Deng.ttf',
         max_fontsize=60
     )
+    return result.image
+
+
+def fight_sunuo(image: Image) -> Image:
+    image = BuildImage(image)
+    image = image.convert('L').resize((565, 1630), keep_ratio=True)
+
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'sunuo.png'))
+    result.paste(image, (0, 245), below=True)
+
     return result.image
 
