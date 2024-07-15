@@ -3,7 +3,6 @@ from flask import request
 import base64
 import numpy as np
 import cv2
-from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 from .emoji_normal import *
 
@@ -29,19 +28,12 @@ class GrayWordMeme(Resource):
             img_arr = np.frombuffer(img, dtype=np.uint8)
             img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
 
-            height, width, _ = img.shape
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = cv2.copyMakeBorder(img, 0, round(height / 5), 0, 0, cv2.BORDER_CONSTANT, value=[0, 0, 0])
             img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
             img = Image.fromarray(img)
-            size = int((height / 5) * 0.75)
-            font = ImageFont.truetype(r'./GlowSansSC-Normal-Heavy.otf', size)
 
-            txt_width, txt_height = font.getsize(text)
-
-            draw = ImageDraw.Draw(img)
-            draw.text(((width - txt_width) / 2, height + (height // 5 - txt_height) / 2), text, fill='white', font=font)
+            img = append_text(img, text)
 
             buf = BytesIO()
             img.save(buf, 'PNG')

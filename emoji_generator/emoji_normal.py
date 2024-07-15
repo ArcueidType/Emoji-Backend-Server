@@ -2,6 +2,25 @@ from pil_utils import BuildImage
 from PIL import Image
 
 
+def append_text(image: Image, text: str) -> Image:
+    image = BuildImage(image)
+    if image.width < 100:
+        image.resize_width(100)
+    if image.height < 100:
+        image.resize_height(100)
+    width, height = image.width, image.height
+    result = BuildImage.new('RGBA', (width, height + round(height / 5)), 'black')
+    result.paste(image, alpha=True)
+    result.draw_text(
+        (10, height + 2, width - 10, height + round(height / 5) - 2),
+        text,
+        fill='white',
+        fontname='GlowSansSC-Normal-Heavy.otf',
+        max_fontsize=60
+    )
+    return result.image
+
+
 def always(image: Image) -> Image:
     image = BuildImage(image)
     img_large = image.convert('RGBA').resize_width(500)
