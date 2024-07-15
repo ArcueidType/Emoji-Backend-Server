@@ -38,12 +38,14 @@ def always(image: Image) -> Image:
         (20, height_large + 5, 280, height_large + height_small + 5),
         '要我一直',
         halign='right',
+        fontname='./Deng.ttf',
         max_fontsize=60
     )
     result.draw_text(
         (400, height_large + 5, 480, height_large + height_small + 5),
         '吗',
         halign='left',
+        fontname='./Deng.ttf',
         max_fontsize=60
     )
     return result.image
