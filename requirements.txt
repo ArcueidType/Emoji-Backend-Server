@@ -1,7 +1,6 @@
-Flask~=2.2.2
+Flask==2.2.5
 Flask_RESTful==0.3.10
-
-requests~=2.31.0
-numpy~=1.24.3
-opencv-python-headless~=4.10.0.84
-pillow~=9.5.0
+numpy==1.24.4
+opencv_python_headless==4.10.0.84
+pil_utils==0.1.10
+Pillow==10.4.0
