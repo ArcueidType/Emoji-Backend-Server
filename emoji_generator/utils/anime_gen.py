@@ -5,8 +5,8 @@ import onnxruntime as ort
 import numpy as np
 from PIL import Image
 
-DESIRED_HEIGHT = 1024
-DESIRED_WIDTH = 1024
+DESIRED_HEIGHT = 512
+DESIRED_WIDTH = 512
 ORIGINAL_HEIGHT = 0
 ORIGINAL_WIDTH = 0
 
