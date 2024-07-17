@@ -130,7 +130,7 @@ class AnimeGen(Resource):
             img = base64.b64decode(img)
             img_arr = np.frombuffer(img, dtype=np.uint8)
             img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
             img = anime_gen(img, type)
 

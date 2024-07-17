@@ -6,13 +6,12 @@ import math
 import numpy as np
 from PIL import Image
 
-BG_COLOR = (255, 255, 255)
+BG_COLOR = (255, 255, 255, 0)
 
 mp_selfie_segmentation = mp.solutions.selfie_segmentation
 
 
-def trans_to_bytes(image):
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+def trans_to_bytes(img):
     _, buffer = cv2.imencode('.png', img)
     img_byte_arr = buffer.tobytes()
     img_base64 = base64.b64encode(img_byte_arr)
@@ -30,7 +29,8 @@ def body_segment(img_bytes):
 
     with mp_selfie_segmentation.SelfieSegmentation(model_selection=0) as selfie_segmentation:
         results = selfie_segmentation.process(mp_image)
-        condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.3
+        condition = np.stack((results.segmentation_mask,) * 4, axis=-1) > 0.3
+        mp_image = cv2.cvtColor(mp_image, cv2.COLOR_BGR2RGBA)
         bg_image = np.zeros(mp_image.shape, dtype=np.uint8)
         bg_image[:] = BG_COLOR
         FG_img = np.where(condition, mp_image, bg_image)

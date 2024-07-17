@@ -2,7 +2,6 @@ Flask==2.2.5
 Flask_RESTful==0.3.10
 mediapipe==0.10.14
 onnxruntime==1.18.1
-onnxruntime_gpu==1.18.1
 opencv_contrib_python==4.10.0.84
 opencv_python_headless==4.10.0.84
 numpy==1.24.4
