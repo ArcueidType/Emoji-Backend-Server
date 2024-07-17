@@ -4,26 +4,33 @@ import base64
 import numpy as np
 import cv2
 from io import BytesIO
-from .utils.body_segment import body_segment
+from .utils import *
 from .emoji_normal import *
 
 
 class AddOp(Resource):
     def post(self):
-        data = request.get_json()
-        num1 = data['num1']
-        num2 = data['num2']
-        result = num1 + num2
-        return {'code': 200, 'msg': 'ok', 'result': result}
+        try:
+            data = request.get_json()
+            num1 = data['num1']
+            num2 = data['num2']
+            result = num1 + num2
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
 
 
 class BodySegment(Resource):
     def post(self):
-        data = request.get_json()
-        img_bytes = data['img']
-        result = body_segment(img_bytes)
-        return {'code': 200, 'msg': 'ok', 'result': result}
+        try:
+            data = request.get_json()
+            img_bytes = data['img']
 
+            result = body_segment(img_bytes)
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
 
 
 class GrayWordMeme(Resource):
@@ -108,5 +115,31 @@ class FightSunuo(Resource):
 
             return {'code': 200, 'msg': 'ok', 'result': ret_img}
 
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class AnimeGen(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            type = data['type']
+
+            img = img.encode('ascii')
+            img = base64.b64decode(img)
+            img_arr = np.frombuffer(img, dtype=np.uint8)
+            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+            img = anime_gen(img, type)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            result = buf.getvalue()
+            result = base64.b64encode(result)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
