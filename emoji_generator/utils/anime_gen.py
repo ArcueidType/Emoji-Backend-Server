@@ -10,7 +10,7 @@ DESIRED_WIDTH = 1024
 ORIGINAL_HEIGHT = 0
 ORIGINAL_WIDTH = 0
 
-cwd = os.getcwd() + "\\emoji_generator\\utils\\AnimeGANv3\\"
+cwd = os.getcwd() + "/emoji_generator/utils/AnimeGANv3/"
 
 model_path = {"宫崎骏": cwd + 'AnimeGANv3_Hayao_36.onnx',
          "新海诚": cwd + 'AnimeGANv3_Shinkai_37.onnx',
