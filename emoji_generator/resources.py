@@ -143,3 +143,23 @@ class AnimeGen(Resource):
             return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class AceAttorney(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text = data['text']
+
+            img = ace_attorney(text)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            ret_img = buf.getvalue()
+            ret_img = base64.b64encode(ret_img)
+            ret_img = ret_img.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': ret_img}
+
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
