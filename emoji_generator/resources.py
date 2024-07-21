@@ -163,3 +163,24 @@ class AceAttorney(Resource):
 
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Colorful(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text1 = data['text1']
+            text2 = data['text2']
+
+            img = colorful(text1, text2)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            ret_img = buf.getvalue()
+            ret_img = base64.b64encode(ret_img)
+            ret_img = ret_img.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': ret_img}
+
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
