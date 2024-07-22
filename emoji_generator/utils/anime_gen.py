@@ -10,12 +10,12 @@ DESIRED_WIDTH = 512
 ORIGINAL_HEIGHT = 0
 ORIGINAL_WIDTH = 0
 
-cwd = os.getcwd() + "/emoji_generator/utils/AnimeGANv3/"
+cwd = os.getcwd() + "/emoji_generator/resources/AnimeGANv3/"
 
 model_path = {"宫崎骏": cwd + 'AnimeGANv3_Hayao_36.onnx',
-         "新海诚": cwd + 'AnimeGANv3_Shinkai_37.onnx',
-         "日本风肖像": cwd + 'AnimeGANv3_JP_face.onnx',
-         "素描风肖像": cwd + 'AnimeGANv3_PortraitSketch.onnx'}
+              "新海诚": cwd + 'AnimeGANv3_Shinkai_37.onnx',
+              "日本风肖像": cwd + 'AnimeGANv3_JP_face.onnx',
+              "素描风肖像": cwd + 'AnimeGANv3_PortraitSketch.onnx'}
 
 
 def resize(image):
@@ -34,13 +34,14 @@ def resize(image):
 
 def process_image(img, model_name):
     h, w = img.shape[:2]
+
     def to_8s(x):
-        if 'tiny' in os.path.basename(model_name) :
+        if 'tiny' in os.path.basename(model_name):
             return 256 if x < 256 else x - x % 16
         else:
             return 256 if x < 256 else x - x % 8
     img = cv2.resize(img, (to_8s(w), to_8s(h)))
-    img = img.astype(np.float32)/ 127.5 - 1.0
+    img = img.astype(np.float32) / 127.5 - 1.0
     return img
 
 
@@ -64,10 +65,5 @@ def anime_gen(image, type):
     result = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
     
     result = Image.fromarray(result)
-    # result.show()
 
     return result
-
-
-# img = cv2.imread(cwd + "test.jpg")
-# anime_gen(img, "新海诚")

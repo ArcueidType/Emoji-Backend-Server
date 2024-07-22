@@ -6,6 +6,7 @@ import cv2
 from io import BytesIO
 from .utils import *
 from .emoji_normal import *
+from pil_utils import BuildImage
 
 
 class AddOp(Resource):
@@ -129,11 +130,15 @@ class AnimeGen(Resource):
             img = img.encode('ascii')
             img = base64.b64decode(img)
             img_arr = np.frombuffer(img, dtype=np.uint8)
+            img = cv2.imdecode(img_arr, cv2.IMREAD_UNCHANGED)
+            img = Image.fromarray(img)
+            mask = mask_alpha(img)
             img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
             # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
             img = anime_gen(img, type)
 
+            img = restore_alpha(img, mask)
             buf = BytesIO()
             img.save(buf, 'PNG')
             result = buf.getvalue()
@@ -182,5 +187,52 @@ class Colorful(Resource):
 
             return {'code': 200, 'msg': 'ok', 'result': ret_img}
 
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Confuse(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+
+            img = img.encode('ascii')
+            img = base64.b64decode(img)
+            img_arr = np.frombuffer(img, dtype=np.uint8)
+            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+
+            gif_bytes = confuse(img).getvalue()
+
+            result = base64.b64encode(gif_bytes)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class FlashBlind(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            text = data['text']
+
+            img = img.encode('ascii')
+            img = base64.b64decode(img)
+            img_arr = np.frombuffer(img, dtype=np.uint8)
+            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+
+            gif_bytes = flash_blind(BuildImage(img), text).getvalue()
+
+            result = base64.b64encode(gif_bytes)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}

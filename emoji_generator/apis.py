@@ -1,3 +1,5 @@
+from rich.emoji import Emoji
+
 from .resources import *
 from flask_restful import Api
 
@@ -13,5 +15,7 @@ def enable_all_apis(app):
     api.add_resource(AnimeGen, '/animegen')
     api.add_resource(AceAttorney, '/aceattorney')
     api.add_resource(Colorful, '/colorful')
+    api.add_resource(Confuse, '/confuse')
+    api.add_resource(FlashBlind, '/flashblind')
 
     return api
