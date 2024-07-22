@@ -118,8 +118,8 @@ def ace_attorney(text: str) -> Image:
             x += img.width - round(img.width * ratio)
         return text_img
 
-    result = BuildImage.open(os.path.join(RESOURCES_PATH, "bubble.png"))
-    exclamation = BuildImage.open(os.path.join(RESOURCES_PATH, "exclamation.png"))
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'bubble.png'))
+    exclamation = BuildImage.open(os.path.join(RESOURCES_PATH, 'exclamation.png'))
 
     if total_width <= 2000:
         text_img = combine(text_imgs)
@@ -343,5 +343,20 @@ def colorful(text1: str, text2: str) -> Image:
     result = BuildImage.new("RGBA", (img_width, img_height), "white")
     for img, pos in imgs:
         result.paste(img, pos, alpha=True)
+
+    return result.image
+
+
+def ecnu_lion(text: str) -> Image:
+    font_name = 'HYBiRanTianTianQuan.ttf'
+
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'ecnu_lion.png'))
+    result.draw_text(
+        (86, 365, 400, 468),
+        text=text,
+        fontname=font_name,
+        max_fontsize=120,
+        fill='white'
+    )
 
     return result.image

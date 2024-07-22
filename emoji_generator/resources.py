@@ -184,3 +184,22 @@ class Colorful(Resource):
 
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class ECNULion(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text = data['text']
+
+            img = ecnu_lion(text)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            result = buf.getvalue()
+            result = base64.b64encode(result)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}

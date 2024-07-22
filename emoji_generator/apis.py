@@ -13,5 +13,6 @@ def enable_all_apis(app):
     api.add_resource(AnimeGen, '/animegen')
     api.add_resource(AceAttorney, '/aceattorney')
     api.add_resource(Colorful, '/colorful')
+    api.add_resource(ECNULion, '/ecnulion')
 
     return api
