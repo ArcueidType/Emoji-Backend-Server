@@ -417,3 +417,24 @@ def can_not(image: Image) -> Image:
     )
 
     return result.image
+
+
+def lu_xun(text: str) -> Image:
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'luxun.jpg'))
+
+    try:
+        result.draw_text(
+            (40, result.height - 200, result.width - 40, result.height - 100),
+            text=text,
+            allow_wrap=True,
+            max_fontsize=40,
+            min_fontsize=30,
+            fill='white',
+            fontname='./Deng.ttf'
+        )
+    except ValueError:
+        raise ValueError('Too long text {}'.format(text))
+
+    result.draw_text((320, 400), '——鲁迅', fontsize=30, fill='white', fontname='./Deng.ttf')
+
+    return result.image

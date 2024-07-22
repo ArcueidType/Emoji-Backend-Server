@@ -16,5 +16,6 @@ def enable_all_apis(app):
     api.add_resource(ECNULion, '/ecnulion')
     api.add_resource(ECNUBlackboard, '/ecnublackboard')
     api.add_resource(CanNot, '/cannot')
+    api.add_resource(LuXun, '/luxun')
 
     return api
