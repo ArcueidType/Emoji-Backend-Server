@@ -360,3 +360,27 @@ def ecnu_lion(text: str) -> Image:
     )
 
     return result.image
+
+
+def ecnu_blackboard(text: str) -> Image:
+    font_name = 'HYBiRanTianTianQuan.ttf'
+
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'ecnu_blackboard.png'))
+
+    chars = []
+    for i, char in enumerate(text):
+        chars.append(char)
+        if i != len(text) - 1:
+            chars.append('\n')
+
+    text = ''.join(chars)
+
+    result.draw_text(
+        (375, 70, 475, 260),
+        text=text,
+        fontname=font_name,
+        max_fontsize=120,
+        fill='white'
+    )
+
+    return result.image
