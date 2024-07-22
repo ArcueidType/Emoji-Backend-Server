@@ -1,5 +1,7 @@
 from pil_utils import BuildImage, Text2Image
 from pil_utils.gradient import ColorStop, LinearGradient
+from pil_utils.text2image import Line
+from pil_utils.fonts import DEFAULT_FALLBACK_FONTS
 from PIL import Image, ImageFilter
 from PIL.Image import Resampling, Transform
 import os
@@ -436,5 +438,67 @@ def lu_xun(text: str) -> Image:
         raise ValueError('Too long text {}'.format(text))
 
     result.draw_text((320, 400), '——鲁迅', fontsize=30, fill='white', fontname='./Deng.ttf')
+
+    return result.image
+
+
+def blue_archive(text1: str, text2: str) -> Image:
+    font_name = 'RoGSanSrfStd.otf'
+    fallback_fonts = ['GlowSansSC-Normal-Heavy.otf'] + DEFAULT_FALLBACK_FONTS
+    font_size = 168
+    ratio = 0.4
+    blue = '#128AFA'
+    gray = '#2B2B2B'
+
+    def transform(img: Image) -> Image:
+        dw = round(img.height * ratio)
+        return img.transform(
+            (img.width + dw, img.height),
+            Transform.AFFINE,
+            (1, ratio, -dw, 0, 1, 0),
+            Resampling.BILINEAR,
+        )
+
+    left = Text2Image.from_text(
+        text1,
+        font_size,
+        fill=blue,
+        fontname=font_name,
+        fallback_fonts=fallback_fonts
+    )
+
+    right = Text2Image.from_text(
+        text2,
+        font_size,
+        fill=gray,
+        stroke_width=12,
+        stroke_fill="white",
+        fontname=font_name,
+        fallback_fonts=fallback_fonts
+    )
+
+    line = Line(
+        left.lines[0].chars + right.lines[0].chars,
+        fontsize=font_size,
+        fontname=font_name
+    )
+
+    text_to_img = Text2Image([line])
+    text_img = transform(text_to_img.to_image())
+    text_dy = text_to_img.lines[0].ascent
+
+    padding_x = 50
+    img_width = text_img.width + padding_x * 2
+    img_height = 450
+    text_y = 350
+    logo_y = 10
+    logo_x = padding_x + left.width - 115
+    halo = BuildImage.open(os.path.join(RESOURCES_PATH, 'ba_halo.png')).convert("RGBA")
+    cross = BuildImage.open(os.path.join(RESOURCES_PATH, 'ba_cross.png')).convert("RGBA")
+
+    result = BuildImage.new("RGBA", (img_width, img_height), (255, 255, 255, 0))
+    result.paste(halo, (logo_x, logo_y), alpha=True)
+    result.paste(text_img, (padding_x, text_y - text_dy), alpha=True)
+    result.paste(cross, (logo_x, logo_y), alpha=True)
 
     return result.image
