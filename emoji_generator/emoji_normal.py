@@ -1,6 +1,6 @@
 from pil_utils import BuildImage, Text2Image
 from pil_utils.gradient import ColorStop, LinearGradient
-from PIL import Image
+from PIL import Image, ImageFilter
 from PIL.Image import Resampling, Transform
 import os
 import math
@@ -381,6 +381,39 @@ def ecnu_blackboard(text: str) -> Image:
         fontname=font_name,
         max_fontsize=120,
         fill='white'
+    )
+
+    return result.image
+
+
+def can_not(image: Image) -> Image:
+    image = BuildImage(image)
+    image_large = image.convert('RGBA').resize_width(500)
+    image_large = image_large.filter(ImageFilter.GaussianBlur(radius=3))
+    height_large = image_large.height
+    mask = BuildImage.new('RGBA', image_large.size, (0, 0, 0, 32))
+    loading = BuildImage.open(os.path.join(RESOURCES_PATH, 'loading.png'))
+    image_large.paste(mask, alpha=True).paste(loading, (200, int(height_large / 2) - 50), alpha=True)
+
+    image_small = image.convert('RGBA').resize_width(100)
+    height_small = max(image_small.height, 80)
+
+    result = BuildImage.new('RGBA', (500, height_large + height_small + 10), 'white')
+    result.paste(
+        image_large,
+        alpha=True
+    ).paste(
+        image_small,
+        (100, height_large + 5 + (height_small - image_small.height) // 2),
+        alpha=True
+    )
+
+    result.draw_text(
+        (210, height_large + 5, 480, height_large + height_small + 5),
+        '不出来',
+        halign='left',
+        max_fontsize=60,
+        fontname='./Deng.ttf'
     )
 
     return result.image
