@@ -17,7 +17,7 @@ def punch(image: BuildImage) -> BytesIO:
     return save_gif(frames, 0.03)
 
 
-# img = BuildImage(Image.open('黑白丁真.png'))
+# img = BuildImage(Image.open('head2.jpg'))
 # gif_data = punch(img)
 # with open('punch.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

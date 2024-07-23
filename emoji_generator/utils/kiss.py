@@ -23,8 +23,8 @@ def kiss(image1: BuildImage, image2: BuildImage) -> BytesIO:
     return save_gif(frames, 0.05)
 
 
-# img1 = BuildImage(Image.open('黑白丁真.png'))
-# img2 = BuildImage(Image.open('分割丁真.png'))
+# img1 = BuildImage(Image.open('head1.jpg'))
+# img2 = BuildImage(Image.open('head2.jpg'))
 # gif_data = kiss(img1, img2)
 # with open('kiss.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

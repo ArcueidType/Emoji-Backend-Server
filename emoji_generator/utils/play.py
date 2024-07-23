@@ -32,7 +32,7 @@ def play(image: BuildImage) -> BytesIO:
     return save_gif(frames, 0.06)
 
 
-# img = BuildImage(Image.open('黑白丁真.png'))
+# img = BuildImage(Image.open('head1.jpg'))
 # gif_data = play(img)
 # with open('play.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

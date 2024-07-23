@@ -17,7 +17,7 @@ def trance(img: BuildImage) -> BytesIO:
     return frame.save_jpg()
 
 
-# img = BuildImage(Image.open('img.jpg'))
+# img = BuildImage(Image.open('head1.jpg'))
 # gif_data = trance(img)
 # with open('trance.jpg', 'wb') as file:
 #     file.write(gif_data.getvalue())
