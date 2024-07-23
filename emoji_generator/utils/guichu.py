@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from gif import *
+from .gif import *
 from PIL.Image import Transpose
 
 

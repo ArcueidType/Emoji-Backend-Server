@@ -1,4 +1,4 @@
-from gif import *
+from .gif import *
 
 
 def confuse(image: Image) -> BytesIO:

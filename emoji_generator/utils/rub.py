@@ -1,4 +1,4 @@
-from gif import *
+from .gif import *
 
 
 def rub(image1: BuildImage, image2: BuildImage) -> BytesIO:

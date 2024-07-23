@@ -1,4 +1,4 @@
-from gif import *
+from .gif import *
 
 
 def play(image: BuildImage) -> BytesIO:

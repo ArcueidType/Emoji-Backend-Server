@@ -1,6 +1,6 @@
 from PIL import ImageOps
 from PIL.Image import Image as IMG
-from gif import *
+from .gif import *
 
 
 def flash_blind(image: BuildImage, text: str) -> BytesIO:

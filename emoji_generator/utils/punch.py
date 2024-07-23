@@ -1,4 +1,4 @@
-from gif import *
+from .gif import *
 
 
 def punch(image: BuildImage) -> BytesIO:
