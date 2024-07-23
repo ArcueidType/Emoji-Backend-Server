@@ -16,7 +16,7 @@ def rub(image1: BuildImage, image2: BuildImage) -> BytesIO:
 
     frames: list[BuildImage] = []
     for i in range(6):
-        frame = BuildImage.open('../resources/' + "rub" + f"/{i}.png")
+        frame = BuildImage.open(gif_template_root_path + "rub" + f"/{i}.png")
         x, y, w, h = user_locs[i]
         frame.paste(user_head.resize((w, h)), (x, y), alpha=True)
         x, y, w, h, angle = self_locs[i]

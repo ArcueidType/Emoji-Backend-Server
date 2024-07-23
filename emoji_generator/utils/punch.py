@@ -9,7 +9,7 @@ def punch(image: BuildImage) -> BytesIO:
         (10, 10), (20, 20), (10, 10), (0, 0), (-10, -10), (10, 0), (-30, 10)
     ]
     for i in range(13):
-        fist = BuildImage.open('../resources/' + "punch" + f"/{i}.png")
+        fist = BuildImage.open(gif_template_root_path + "punch" + f"/{i}.png")
         frame = BuildImage.new("RGBA", fist.size, (255, 255, 255, 0))
         x, y = locs[i]
         frame.paste(img, (x, y - 15), alpha=True).paste(fist, alpha=True)

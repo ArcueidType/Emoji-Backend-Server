@@ -38,7 +38,7 @@ def chase_train(image: BuildImage):
     ]
 
     for i in range(120):
-        frame = BuildImage.open('../resources/' + "chase_train" + f"/{i}.png")
+        frame = BuildImage.open(gif_template_root_path + "chase_train" + f"/{i}.png")
         w, h, x, y = locs[i]
         frame.paste(img.resize((w, h)), (x, y), below=True)
         frames.append(frame)

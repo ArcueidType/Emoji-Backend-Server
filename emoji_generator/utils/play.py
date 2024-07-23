@@ -14,7 +14,7 @@ def play(image: BuildImage) -> BytesIO:
     ]
 
     raw_frames: list[BuildImage] = [
-        BuildImage.open('../resources/' + "play" + f"/{i}.png") for i in range(38)
+        BuildImage.open(gif_template_root_path + "play" + f"/{i}.png") for i in range(38)
     ]
     img_frames: list[BuildImage] = []
     for i in range(len(locs)):

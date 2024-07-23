@@ -16,7 +16,7 @@ def kiss(image1: BuildImage, image2: BuildImage) -> BytesIO:
 
     frames: list[BuildImage] = []
     for i in range(13):
-        frame = BuildImage.open('../resources/' + "kiss" + f"/{i}.png")
+        frame = BuildImage.open(gif_template_root_path + "kiss" + f"/{i}.png")
         frame.paste(user_head, user_locs[i], alpha=True)
         frame.paste(self_head, self_locs[i], alpha=True)
         frames.append(frame)

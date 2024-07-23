@@ -1,8 +1,9 @@
 from pil_utils import BuildImage
 from io import BytesIO
 from PIL import Image
+import os
 
-gif_template_root_path = '../resources/'
+gif_template_root_path = os.getcwd() + '/emoji_generator/resources/'
 GIF_MAX_FRAMES = 100
 GIF_MAX_SIZE = 10
 
