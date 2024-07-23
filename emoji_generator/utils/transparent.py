@@ -1,5 +1,23 @@
 from PIL import Image
 import numpy as np
+import base64
+import cv2
+
+
+def base64_RGBA_decode(img: str) -> Image:
+    img = img.encode('ascii')
+    img = base64.b64decode(img)
+    img_arr = np.frombuffer(img, dtype=np.uint8)
+    img = cv2.imdecode(img_arr, cv2.IMREAD_UNCHANGED)
+    img = cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)
+    img = Image.fromarray(img)
+    return img
+
+
+def base64_RGBA_encode(gif: bytes) -> str:
+    result = base64.b64encode(gif)
+    result = result.decode('ascii')
+    return result
 
 
 def mask_alpha(img):

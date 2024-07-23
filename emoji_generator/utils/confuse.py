@@ -1,5 +1,4 @@
 from gif import *
-from PIL import Image
 
 
 def confuse(image: Image) -> BytesIO:

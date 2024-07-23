@@ -13,8 +13,8 @@ def flash_blind(image: BuildImage, text: str) -> BytesIO:
     if text:
         text_h = 65
         try:
-            text_frame_black = BuildImage.new("RGB", (500, text_h), "black")
-            text_frame_white = BuildImage.new("RGB", (500, text_h), "white")
+            text_frame_black = BuildImage.new("RGBA", (500, text_h), "black")
+            text_frame_white = BuildImage.new("RGBA", (500, text_h), "white")
             text_frame_black.draw_text(
                 (10, 0, 490, text_h),
                 text,
@@ -41,7 +41,7 @@ def flash_blind(image: BuildImage, text: str) -> BytesIO:
     return save_gif([BuildImage(frame) for frame in frames], 0.04)
 
 
-# img = BuildImage(Image.open('丁真.png'))
-# gif_data = flash_blind(img, "Flash!!!")
-# with open('flash_blind.gif', 'wb') as file:
-#     file.write(gif_data.getvalue())
+img = BuildImage(Image.open('分割丁真.png'))
+gif_data = flash_blind(img, "Flash!!!")
+with open('flash_blind.gif', 'wb') as file:
+    file.write(gif_data.getvalue())

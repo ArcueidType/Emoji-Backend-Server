@@ -134,7 +134,6 @@ class AnimeGen(Resource):
             img = Image.fromarray(img)
             mask = mask_alpha(img)
             img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
-            # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
             img = anime_gen(img, type)
 
@@ -142,8 +141,7 @@ class AnimeGen(Resource):
             buf = BytesIO()
             img.save(buf, 'PNG')
             result = buf.getvalue()
-            result = base64.b64encode(result)
-            result = result.decode('ascii')
+            result = base64_RGBA_encode(result)
 
             return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
@@ -196,19 +194,11 @@ class Confuse(Resource):
         try:
             data = request.get_json()
             img = data['img']
-
-            img = img.encode('ascii')
-            img = base64.b64decode(img)
-            img_arr = np.frombuffer(img, dtype=np.uint8)
-            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(img)
+            img = base64_RGBA_decode(img)
 
             gif_bytes = confuse(img).getvalue()
 
-            result = base64.b64encode(gif_bytes)
-            result = result.decode('ascii')
-
+            result = base64_RGBA_encode(gif_bytes)
             return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
@@ -220,19 +210,136 @@ class FlashBlind(Resource):
             data = request.get_json()
             img = data['img']
             text = data['text']
-
-            img = img.encode('ascii')
-            img = base64.b64decode(img)
-            img_arr = np.frombuffer(img, dtype=np.uint8)
-            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(img)
+            img = base64_RGBA_decode(img)
 
             gif_bytes = flash_blind(BuildImage(img), text).getvalue()
 
-            result = base64.b64encode(gif_bytes)
-            result = result.decode('ascii')
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
 
+
+class Trance(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = trance(BuildImage(img)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Play(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = play(BuildImage(img)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class ChaseTrain(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = chase_train(BuildImage(img)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class FunnyMirror(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = funny_mirror(BuildImage(img)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class GuiChu(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            direction = data['text']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = guichu(BuildImage(img), direction).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Punch(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+            img = base64_RGBA_decode(img)
+
+            gif_bytes = punch(BuildImage(img)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Kiss(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img1 = data['img1']
+            img2 = data['img2']
+            img1 = base64_RGBA_decode(img1)
+            img2 = base64_RGBA_decode(img2)
+
+            gif_bytes = kiss(BuildImage(img1), BuildImage(img2)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class Rub(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img1 = data['img1']
+            img2 = data['img2']
+            img1 = base64_RGBA_decode(img1)
+            img2 = base64_RGBA_decode(img2)
+
+            gif_bytes = rub(BuildImage(img1), BuildImage(img2)).getvalue()
+
+            result = base64_RGBA_encode(gif_bytes)
             return {'code': 200, 'msg': 'ok', 'result': result}
         except Exception as e:
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}

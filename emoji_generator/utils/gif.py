@@ -1,5 +1,6 @@
 from pil_utils import BuildImage
 from io import BytesIO
+from PIL import Image
 
 gif_template_root_path = '../resources/'
 GIF_MAX_FRAMES = 100
@@ -12,7 +13,7 @@ def fit_gif_template(target_image: BuildImage, gif_name: str, max_frame_index: i
     for frame_index in range(max_frame_index):
         frame_img = BuildImage.open(gif_template_root_path + gif_name + f"/{frame_index}.png")
         frame_img = frame_img.resize(img_target_resized.size, keep_ratio=True)
-        bg = BuildImage.new("RGB", img_target_resized.size, "white")
+        bg = BuildImage.new("RGBA", img_target_resized.size, "white")
         combined_img = bg.paste(img_target_resized, alpha=True).paste(frame_img, alpha=True)
         frames.append(combined_img)
 
