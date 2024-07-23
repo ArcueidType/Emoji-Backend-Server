@@ -41,7 +41,7 @@ def flash_blind(image: BuildImage, text: str) -> BytesIO:
     return save_gif([BuildImage(frame) for frame in frames], 0.04)
 
 
-# img = BuildImage(Image.open('../分割丁真.png'))
-# gif_data = flash_blind(img, "Flash!!!")
+# img = BuildImage(Image.open('head1.jpg'))
+# gif_data = flash_blind(img, "闪瞎你们的🐕眼")
 # with open('flash_blind.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

@@ -8,7 +8,7 @@ def confuse(image: Image) -> BytesIO:
     return save_gif(frames, 0.02)
 
 
-# img = BuildImage(Image.open('丁真.jpg'))
+# img = Image.open('丁真.jpg')
 # gif_data = confuse(img)
 # with open('confuse.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

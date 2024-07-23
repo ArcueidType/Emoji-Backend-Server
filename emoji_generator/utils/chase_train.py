@@ -45,7 +45,7 @@ def chase_train(image: BuildImage):
     return save_gif(frames, 0.05)
 
 
-# img = BuildImage(Image.open('黑白丁真.png'))
+# img = BuildImage(Image.open('head1.jpg'))
 # gif_data = chase_train(img)
 # with open('chase_train.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

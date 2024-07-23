@@ -14,7 +14,7 @@ def funny_mirror(image: BuildImage) -> BytesIO:
     return save_gif(frames, 0.05)
 
 
-# img = BuildImage(Image.open('黑白丁真.png'))
+# img = BuildImage(Image.open('head1.jpg'))
 # gif_data = funny_mirror(img)
 # with open('funny_mirror.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())

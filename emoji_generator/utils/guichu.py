@@ -77,7 +77,7 @@ def guichu(image: BuildImage, direction: str) -> BytesIO:
     return save_gif(frames, 0.2)
 
 
-# img = BuildImage(Image.open('黑白丁真.png'))
-# gif_data = guichu(img, '右')
+# img = BuildImage(Image.open('head1.jpg'))
+# gif_data = guichu(img, '上')
 # with open('guichu.gif', 'wb') as file:
 #     file.write(gif_data.getvalue())
