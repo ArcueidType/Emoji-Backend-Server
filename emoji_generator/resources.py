@@ -189,6 +189,113 @@ class Colorful(Resource):
             return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
 
 
+class ECNULion(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text = data['text']
+
+            img = ecnu_lion(text)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            result = buf.getvalue()
+            result = base64.b64encode(result)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class ECNUBlackboard(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text = data['text']
+
+            img = ecnu_blackboard(text)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            result = buf.getvalue()
+            result = base64.b64encode(result)
+            result = result.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': result}
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class CanNot(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            img = data['img']
+
+            img = img.encode('ascii')
+            img = base64.b64decode(img)
+
+            img_arr = np.frombuffer(img, dtype=np.uint8)
+            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+
+            img = can_not(img)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            ret_img = buf.getvalue()
+            ret_img = base64.b64encode(ret_img)
+            ret_img = ret_img.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': ret_img}
+
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class LuXun(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text = data['text']
+
+            img = lu_xun(text)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            ret_img = buf.getvalue()
+            ret_img = base64.b64encode(ret_img)
+            ret_img = ret_img.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': ret_img}
+
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
+class BlueArchive(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            text1 = data['text1']
+            text2 = data['text2']
+
+            img = blue_archive(text1, text2)
+
+            buf = BytesIO()
+            img.save(buf, 'PNG')
+            ret_img = buf.getvalue()
+            ret_img = base64.b64encode(ret_img)
+            ret_img = ret_img.decode('ascii')
+
+            return {'code': 200, 'msg': 'ok', 'result': ret_img}
+
+        except Exception as e:
+            return {'code': 500, 'msg': f'Process Procedure Error: {e}'}
+
+
 class Confuse(Resource):
     def post(self):
         try:

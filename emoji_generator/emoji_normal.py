@@ -1,6 +1,8 @@
 from pil_utils import BuildImage, Text2Image
 from pil_utils.gradient import ColorStop, LinearGradient
-from PIL import Image
+from pil_utils.text2image import Line
+from pil_utils.fonts import DEFAULT_FALLBACK_FONTS
+from PIL import Image, ImageFilter
 from PIL.Image import Resampling, Transform
 import os
 import math
@@ -118,8 +120,8 @@ def ace_attorney(text: str) -> Image:
             x += img.width - round(img.width * ratio)
         return text_img
 
-    result = BuildImage.open(os.path.join(RESOURCES_PATH, "bubble.png"))
-    exclamation = BuildImage.open(os.path.join(RESOURCES_PATH, "exclamation.png"))
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'bubble.png'))
+    exclamation = BuildImage.open(os.path.join(RESOURCES_PATH, 'exclamation.png'))
 
     if total_width <= 2000:
         text_img = combine(text_imgs)
@@ -343,5 +345,160 @@ def colorful(text1: str, text2: str) -> Image:
     result = BuildImage.new("RGBA", (img_width, img_height), "white")
     for img, pos in imgs:
         result.paste(img, pos, alpha=True)
+
+    return result.image
+
+
+def ecnu_lion(text: str) -> Image:
+    font_name = 'HYBiRanTianTianQuan.ttf'
+
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'ecnu_lion.png'))
+    result.draw_text(
+        (86, 365, 400, 468),
+        text=text,
+        fontname=font_name,
+        max_fontsize=120,
+        fill='white'
+    )
+
+    return result.image
+
+
+def ecnu_blackboard(text: str) -> Image:
+    font_name = 'HYBiRanTianTianQuan.ttf'
+
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'ecnu_blackboard.png'))
+
+    chars = []
+    for i, char in enumerate(text):
+        chars.append(char)
+        if i != len(text) - 1:
+            chars.append('\n')
+
+    text = ''.join(chars)
+
+    result.draw_text(
+        (375, 70, 475, 260),
+        text=text,
+        fontname=font_name,
+        max_fontsize=120,
+        fill='white'
+    )
+
+    return result.image
+
+
+def can_not(image: Image) -> Image:
+    image = BuildImage(image)
+    image_large = image.convert('RGBA').resize_width(500)
+    image_large = image_large.filter(ImageFilter.GaussianBlur(radius=3))
+    height_large = image_large.height
+    mask = BuildImage.new('RGBA', image_large.size, (0, 0, 0, 32))
+    loading = BuildImage.open(os.path.join(RESOURCES_PATH, 'loading.png'))
+    image_large.paste(mask, alpha=True).paste(loading, (200, int(height_large / 2) - 50), alpha=True)
+
+    image_small = image.convert('RGBA').resize_width(100)
+    height_small = max(image_small.height, 80)
+
+    result = BuildImage.new('RGBA', (500, height_large + height_small + 10), 'white')
+    result.paste(
+        image_large,
+        alpha=True
+    ).paste(
+        image_small,
+        (100, height_large + 5 + (height_small - image_small.height) // 2),
+        alpha=True
+    )
+
+    result.draw_text(
+        (210, height_large + 5, 480, height_large + height_small + 5),
+        '不出来',
+        halign='left',
+        max_fontsize=60,
+        fontname='./Deng.ttf'
+    )
+
+    return result.image
+
+
+def lu_xun(text: str) -> Image:
+    result = BuildImage.open(os.path.join(RESOURCES_PATH, 'luxun.jpg'))
+
+    try:
+        result.draw_text(
+            (40, result.height - 200, result.width - 40, result.height - 100),
+            text=text,
+            allow_wrap=True,
+            max_fontsize=40,
+            min_fontsize=30,
+            fill='white',
+            fontname='./Deng.ttf'
+        )
+    except ValueError:
+        raise ValueError('Too long text {}'.format(text))
+
+    result.draw_text((320, 400), '——鲁迅', fontsize=30, fill='white', fontname='./Deng.ttf')
+
+    return result.image
+
+
+def blue_archive(text1: str, text2: str) -> Image:
+    font_name = 'RoGSanSrfStd.otf'
+    fallback_fonts = ['GlowSansSC-Normal-Heavy.otf'] + DEFAULT_FALLBACK_FONTS
+    font_size = 168
+    ratio = 0.4
+    blue = '#128AFA'
+    gray = '#2B2B2B'
+
+    def transform(img: Image) -> Image:
+        dw = round(img.height * ratio)
+        return img.transform(
+            (img.width + dw, img.height),
+            Transform.AFFINE,
+            (1, ratio, -dw, 0, 1, 0),
+            Resampling.BILINEAR,
+        )
+
+    left = Text2Image.from_text(
+        text1,
+        font_size,
+        fill=blue,
+        fontname=font_name,
+        fallback_fonts=fallback_fonts
+    )
+
+    right = Text2Image.from_text(
+        text2,
+        font_size,
+        fill=gray,
+        stroke_width=12,
+        stroke_fill="white",
+        fontname=font_name,
+        fallback_fonts=fallback_fonts
+    )
+
+    line = Line(
+        left.lines[0].chars + right.lines[0].chars,
+        fontsize=font_size,
+        fontname=font_name
+    )
+
+    text_to_img = Text2Image([line])
+    text_img = transform(text_to_img.to_image())
+    text_dy = text_to_img.lines[0].ascent
+
+    padding_x = 50
+    img_width = text_img.width + padding_x * 2
+    img_height = 450
+    text_y = 350
+    logo_y = 10
+    logo_x = padding_x + left.width - 115
+    halo = BuildImage.open(os.path.join(RESOURCES_PATH, 'ba_halo.png')).convert("RGBA")
+    cross = BuildImage.open(os.path.join(RESOURCES_PATH, 'ba_cross.png')).convert("RGBA")
+
+    result = BuildImage.new("RGBA", (img_width, img_height), (255, 255, 255, 0))
+    result.paste(halo, (logo_x, logo_y), alpha=True)
+    result.paste(text_img, (padding_x, text_y - text_dy), alpha=True)
+    result.paste(cross, (logo_x, logo_y), alpha=True)
 
     return result.image
