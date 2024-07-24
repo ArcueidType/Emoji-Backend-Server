@@ -21,6 +21,7 @@ def flash_blind(image: BuildImage, text: str) -> BytesIO:
                 max_fontsize=50,
                 min_fontsize=20,
                 fill="white",
+                fontname='Deng.ttf'
             )
             text_frame_white.draw_text(
                 (10, 0, 490, text_h),
@@ -28,6 +29,7 @@ def flash_blind(image: BuildImage, text: str) -> BytesIO:
                 max_fontsize=50,
                 min_fontsize=20,
                 fill="black",
+                fontname='Deng.ttf'
             )
         except ValueError:
             print("Text too long!")
